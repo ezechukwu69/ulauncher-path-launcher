@@ -1,0 +1,26 @@
+{
+  "required_api_version": "2",
+  "name": "Path Launcher",
+  "description": "Launch files and folders with a configurable editor and store recent paths.",
+  "developer_name": "Ojukwu Ezechukwu",
+  "icon": "images/icon.png",
+  "options": {
+    "query_debounce": 0.1
+  },
+  "preferences": [
+    {
+      "id": "path_kw",
+      "type": "keyword",
+      "name": "Path launcher",
+      "description": "Path extension",
+      "default_value": "pr"
+    },
+    {
+      "id": "editor_path",
+      "type": "text",
+      "name": "Path to Preferred Editor",
+      "description": "Full path to your preferred code editor executable (e.g., /usr/local/bin/code) or executable name. Leave empty to use the system default file/folder opener.",
+      "default_value": ""
+    }
+  ]
+}
