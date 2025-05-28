@@ -156,7 +156,7 @@ class ItemEnterEventListener(EventListener):
                 args = args.split(" ")[1:]
                 argsCommand = (command, *args,)
                 print(argsCommand)
-                subprocess.call(argsCommand, shell=True)
+                subprocess.call(argsCommand, shell=False, cwd=selected_path)
             elif editor_path and os.path.isfile(editor_path):
                 subprocess.Popen([editor_path, selected_path])
             else:
