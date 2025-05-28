@@ -120,6 +120,15 @@ class KeywordQueryEventListener(EventListener):
 
         return RenderResultListAction(items)
 
+def get_executable(path):
+    editor_path = path
+    if editor_path and not editor_path.startswith("!"):
+        editor_path = os.path.expanduser(editor_path)
+        if not os.path.isabs(editor_path):
+            resolved_path = shutil.which(editor_path)
+            if resolved_path:
+                editor_path = resolved_path
+    return editor_path
 
 class ItemEnterEventListener(EventListener):
 
@@ -131,7 +140,7 @@ class ItemEnterEventListener(EventListener):
         editor_path = extension.preferences.get('editor_path', '').strip()
 
         # Expand ~ and resolve executable in PATH
-        if editor_path:
+        if editor_path and not editor_path.startswith("!"):
             editor_path = os.path.expanduser(editor_path)
             if not os.path.isabs(editor_path):
                 resolved_path = shutil.which(editor_path)
@@ -139,7 +148,16 @@ class ItemEnterEventListener(EventListener):
                     editor_path = resolved_path
 
         try:
-            if editor_path and os.path.isfile(editor_path):
+            if editor_path.startswith("!"):
+                path = editor_path[1:]
+                path: str = path.replace("%s", selected_path)
+                command = get_executable(path.split(" ")[0])
+                args = path.split(" ")[1:]
+                # args = " ".join(path.split(" ")[1:])
+                argsCommand = (command, *args,)
+                print(argsCommand)
+                subprocess.call(argsCommand)
+            elif editor_path and os.path.isfile(editor_path):
                 subprocess.Popen([editor_path, selected_path])
             else:
                 if platform.system() == "Darwin":
