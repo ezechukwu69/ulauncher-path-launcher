@@ -19,7 +19,7 @@
       "id": "editor_path",
       "type": "text",
       "name": "Path to Preferred Editor",
-      "description": "Full path to your preferred code editor executable (e.g., /usr/local/bin/code) or executable name or custom command starting with ! and replace %s with path. Leave empty to use the system default file/folder opener.",
+      "description": "Full path to your preferred code editor executable (e.g., /usr/local/bin/code) or executable name or custom command starting with ! and replace %s with path and %d for directory name. Leave empty to use the system default file/folder opener.",
       "default_value": ""
     }
   ]

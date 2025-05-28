@@ -141,7 +141,7 @@ class ItemEnterEventListener(EventListener):
 
         # Expand ~ and resolve executable in PATH
         if editor_path and not editor_path.startswith("!"):
-            editor_path = os.path.expanduser(editor_path)
+            editor_path = os.path.expanduser(selected_path)
             if not os.path.isabs(editor_path):
                 resolved_path = shutil.which(editor_path)
                 if resolved_path:
@@ -151,9 +151,11 @@ class ItemEnterEventListener(EventListener):
             if editor_path.startswith("!"):
                 path = editor_path[1:]
                 command = get_executable(path.split(" ")[0])
-                args = path.replace("%s", selected_path)[1:]
-                args = path.split(" ")
+                args = path.replace("%s", selected_path)
+                args = args.replace("%d", os.path.basename(selected_path))
+                args = args.split(" ")[1:]
                 argsCommand = (command, *args,)
+                print(argsCommand)
                 subprocess.call(argsCommand, shell=True)
             elif editor_path and os.path.isfile(editor_path):
                 subprocess.Popen([editor_path, selected_path])
