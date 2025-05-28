@@ -150,13 +150,11 @@ class ItemEnterEventListener(EventListener):
         try:
             if editor_path.startswith("!"):
                 path = editor_path[1:]
-                path: str = path.replace("%s", selected_path)
                 command = get_executable(path.split(" ")[0])
-                args = path.split(" ")[1:]
-                # args = " ".join(path.split(" ")[1:])
+                args = path.replace("%s", selected_path)[1:]
+                args = path.split(" ")
                 argsCommand = (command, *args,)
-                print(argsCommand)
-                subprocess.call(argsCommand)
+                subprocess.call(argsCommand, shell=True)
             elif editor_path and os.path.isfile(editor_path):
                 subprocess.Popen([editor_path, selected_path])
             else:
